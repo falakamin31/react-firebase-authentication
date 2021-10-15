@@ -2,16 +2,18 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 const firebaseConfig = {
-    apiKey: "AIzaSyByDVfXzHtRQBVmwv-ipLCiZfuvC0dzrcQ",
-    authDomain: "react-firebase-authentic-9e0e6.firebaseapp.com",
-    projectId: "react-firebase-authentic-9e0e6",
-    storageBucket: "react-firebase-authentic-9e0e6.appspot.com",
-    messagingSenderId: "791835212273",
-    appId: "1:791835212273:web:cbe5ec3596b46253526c50"
-  };
-  const app = firebase.initializeApp(firebaseConfig);
+  apiKey: "AIzaSyByDVfXzHtRQBVmwv-ipLCiZfuvC0dzrcQ",
+  authDomain: "react-firebase-authentic-9e0e6.firebaseapp.com",
+  projectId: "react-firebase-authentic-9e0e6",
+  storageBucket: "react-firebase-authentic-9e0e6.appspot.com",
+  messagingSenderId: "791835212273",
+  appId: "1:791835212273:web:cbe5ec3596b46253526c50"
+};
+
+const app = firebase.initializeApp(firebaseConfig);
 const auth = app.auth();
 const db = app.firestore();
+
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 const signInWithGoogle = async () => {
@@ -43,7 +45,7 @@ const signInWithEmailAndPassword = async (email, password) => {
       alert(err.message);
     }
   };
-  const registerWithEmailAndPassword = async (name, email, password) => {
+  const registerWithEmailAndPassword = async (name, email, password, gender) => {
     try {
       const res = await auth.createUserWithEmailAndPassword(email, password);
       const user = res.user;
@@ -52,17 +54,31 @@ const signInWithEmailAndPassword = async (email, password) => {
         name,
         authProvider: "local",
         email,
+        gender,
       });
     } catch (err) {
       console.error(err);
       alert(err.message);
     }
   };
-  
+  const sendPasswordResetEmail = async (email) => {
+    try {
+      await auth.sendPasswordResetEmail(email);
+      alert("Password reset link sent!");
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  };
+  const logout = () => {
+    auth.signOut();
+  };
   export {
     auth,
     db,
     signInWithGoogle,
     signInWithEmailAndPassword,
-    registerWithEmailAndPassword
+    registerWithEmailAndPassword,
+    sendPasswordResetEmail,
+    logout,
   };
