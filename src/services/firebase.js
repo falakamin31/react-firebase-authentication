@@ -2,12 +2,12 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 const firebaseConfig = {
-    apiKey: "AIzaSyCJGcwshhsoUp8bxLnNpzORgS8HXH5XiFw",
-    authDomain: "login-4f020.firebaseapp.com",
-    projectId: "login-4f020",
-    storageBucket: "login-4f020.appspot.com",
-    messagingSenderId: "1053171955446",
-    appId: "1:1053171955446:web:3c5f414bce2abf67491ed7"
+    apiKey: "AIzaSyByDVfXzHtRQBVmwv-ipLCiZfuvC0dzrcQ",
+    authDomain: "react-firebase-authentic-9e0e6.firebaseapp.com",
+    projectId: "react-firebase-authentic-9e0e6",
+    storageBucket: "react-firebase-authentic-9e0e6.appspot.com",
+    messagingSenderId: "791835212273",
+    appId: "1:791835212273:web:cbe5ec3596b46253526c50"
   };
   const app = firebase.initializeApp(firebaseConfig);
 const auth = app.auth();
@@ -43,10 +43,26 @@ const signInWithEmailAndPassword = async (email, password) => {
       alert(err.message);
     }
   };
+  const registerWithEmailAndPassword = async (name, email, password) => {
+    try {
+      const res = await auth.createUserWithEmailAndPassword(email, password);
+      const user = res.user;
+      await db.collection("users").add({
+        uid: user.uid,
+        name,
+        authProvider: "local",
+        email,
+      });
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  };
   
   export {
     auth,
     db,
     signInWithGoogle,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    registerWithEmailAndPassword
   };
