@@ -1,1 +1,1 @@
-# React-firebase-authentication
+# React-Firebase-Authentication
